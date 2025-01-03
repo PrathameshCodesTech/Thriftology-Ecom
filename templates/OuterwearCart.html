@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart - Thriftology</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="tf2C.css">
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+</head>
+<body class="bg-white text-black font-sans">
+    <div id="app">
+        <!-- Navigation -->
+        <header class="fixed top-0 left-0 w-full bg-white z-50 shadow-sm">
+            <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+                <a href="Outerwear.html" class="md:hidden">
+                    <i data-feather="arrow-left"></i>
+                </a>
+                
+                <div class="text-2xl font-bold">
+                    <span class="text-black">THRIFT</span>
+                    <span class="text-gray-500">OLOGY</span>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <a href="cart.html" id="cart-button" class="relative hover:text-gray-600">
+                        <i data-feather="shopping-cart"></i>
+                        <span id="cart-count" class="hidden absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center"></span>
+                    </a>
+                </div>
+            </div>
+        </header>
+        <!-- Main Content -->
+        <main class="pt-32 max-w-7xl mx-auto px-4">
+            <h1 class="text-3xl font-bold mb-8">Your Shopping Cart</h1>
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Cart Items -->
+                <div class="md:col-span-2">
+                    <div id="cart-items" class="space-y-4">
+                        <!-- Cart items will be dynamically inserted here -->
+                    </div>
+                    <div id="empty-cart-message" class="hidden text-center py-12">
+                        <i data-feather="shopping-cart" class="mx-auto mb-4 text-gray-400" width="64" height="64"></i>
+                        <p class="text-gray-600 mb-4">Your cart is empty</p>
+                        <a href="index.html" class="bg-black text-white px-6 py-2 hover:bg-gray-800 transition duration-300">Continue Shopping</a>
+                    </div>
+                </div>
+                <!-- Order Summary -->
+                <div>
+                    <div class="bg-gray-100 p-6 rounded-lg">
+                        <h2 class="text-xl font-bold mb-4">Order Summary</h2>
+                        <div class="space-y-2 mb-4">
+                            <div class="flex justify-between">
+                                <span>Subtotal</span>
+                                <span id="subtotal">$0.00</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Shipping</span>
+                                <span>$5.99</span>
+                            </div>
+                            <hr class="my-2">
+                            <div class="flex justify-between font-bold text-lg">
+                                <span>Total</span>
+                                <span id="total">$5.99</span>
+                            </div>
+                        </div>
+                        <button id="checkout-button" class="w-full bg-black text-white py-3 rounded-lg hover:bg-gray-800 transition duration-300">
+                            Proceed to Checkout
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="tf2C.js"></script>
+    <script>
+        // Initialize Feather icons
+        feather.replace();
+    </script>
+</body>
+</html>

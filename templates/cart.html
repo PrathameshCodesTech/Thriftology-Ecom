@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart - Thriftology</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+</head>
+
+<body class="bg-gray-50">
+    <header class="fixed top-0 left-0 w-full bg-white z-50 shadow-sm">
+        <nav class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+            <button class="md:hidden" aria-label="Menu">
+                <i data-feather="menu"></i>
+            </button>
+            <div class="text-2xl font-bold">
+                <span class="text-black">THRIFT</span>
+                <span class="text-gray-500">OLOGY</span>
+            </div>
+            <div class="flex items-center space-x-4">
+                <button class="hover:text-gray-600" aria-label="Login">
+                    <i data-feather="log-in"></i>
+                </button>
+                <button class="hover:text-gray-600" aria-label="Wishlist">
+                    <i data-feather="heart"></i>
+                </button>
+                <button class="relative hover:text-gray-600" aria-label="Cart">
+                    <i data-feather="shopping-cart"></i>
+                    <span id="cart-total-items"
+                        class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">0</span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="pt-32 pb-16 max-w-7xl mx-auto px-4">
+        <h1 class="text-3xl font-bold mb-8">Shopping Cart (<span id="cart-count">0</span>)</h1>
+
+
+        {% if messages %}
+        <div class="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md">
+            {% for message in messages %}
+            <div
+                class="bg-white border border-green-100 rounded-lg shadow-lg p-4 mb-4 animate-fade-in flex items-start">
+                <div class="flex-shrink-0 mr-3">
+                    <svg class="h-5 w-5 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                        fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                            clip-rule="evenodd" />
+                    </svg>
+                </div>
+                <div class="flex-1">
+                    <p class="text-sm font-medium text-gray-900">{{ message }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+
+        <div class="grid md:grid-cols-3 gap-8">
+            <section class="md:col-span-2 space-y-6">
+                <!-- Single Cart Item Template -->
+                {% for cart in carts %}
+                <div class="bg-white p-6 rounded-lg shadow-sm flex space-x-6"
+                    data-price="{{ cart.product.discounted_price }}">
+                    <img src="{{cart.product.image.url}}" alt="{{ cart.product.name }}"
+                        class="w-48 h-56 object-cover rounded" />
+                    <div class="flex-grow">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="text-xl font-medium">{{cart.product.name}}</h3>
+                                <p class="text-gray-500 mt-1">Size: M</p>
+                                <p class="text-gray-500 mt-1">Color: Color</p>
+                                <p class="text-red-500 font-bold text-xl mt-3">{{ cart.product.discounted_price }}</p>
+                                <p class="text-gray-500 line-through">{{ cart.product.selling_price }}</p>
+                            </div>
+                            <button class="text-gray-400 hover:text-gray-600 remove-item">
+                                <i data-feather="x"></i>
+                            </button>
+                        </div>
+                        <div class="mt-6">
+                            <div class="flex items-center">
+                                <button class="border rounded-l px-4 py-2 hover:bg-gray-100 quantity-btn"
+                                    data-action="decrease">-</button>
+                                <input type="number" value="{{ cart.quantity }}" min="1"
+                                    class="border-t border-b w-20 py-2 text-center quantity-input" readonly />
+                                <button class="border rounded-r px-4 py-2 hover:bg-gray-100 quantity-btn"
+                                    data-action="increase">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </section>
+
+            <aside class="space-y-6">
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <h2 class="text-xl font-bold mb-4">Order Summary</h2>
+                    <div class="space-y-3 mb-6">
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Subtotal</span>
+                            <span id="subtotal">{{ amount }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Shipping</span>
+                            <span id="shipping">70.00</span>
+                        </div>
+                        <div class="flex justify-between font-bold pt-3 border-t">
+                            <span>Total</span>
+                            <span id="total">{{ total_amount }}</span>
+                        </div>
+                    </div>
+                    <button class="w-full bg-black text-white py-3 rounded hover:bg-gray-800">
+                        Proceed to Checkout
+                    </button>
+                    <div class="mt-4">
+                        <input type="text" placeholder="Enter promo code" class="w-full border p-2 rounded mb-2" />
+                        <button class="w-full border border-black py-2 rounded hover:bg-gray-100">
+                            Apply
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <h2 class="text-xl font-bold mb-4">Shipping Information</h2>
+                    <div class="space-y-4">
+                        <div class="flex items-center space-x-3">
+                            <i data-feather="truck" class="text-gray-400"></i>
+                            <div>
+                                <p class="font-medium">Free Shipping</p>
+                                <p class="text-sm text-gray-500">On orders over $100</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <i data-feather="refresh-cw" class="text-gray-400"></i>
+                            <div>
+                                <p class="font-medium">Easy Returns</p>
+                                <p class="text-sm text-gray-500">30 day return policy</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <script>
+        // Initialize feather icons
+        feather.replace();
+
+        // Handle quantity buttons
+        document.querySelectorAll('.quantity-btn').forEach(button => {
+            button.addEventListener('click', function () {
+                const input = this.parentElement.querySelector('.quantity-input');
+                const currentValue = parseInt(input.value);
+
+                if (this.dataset.action === 'increase') {
+                    input.value = currentValue + 1;
+                } else if (this.dataset.action === 'decrease' && currentValue > 1) {
+                    input.value = currentValue - 1;
+                }
+
+                updateTotals();
+            });
+        });
+
+        // Handle remove buttons
+        document.querySelectorAll('.remove-item').forEach(button => {
+            button.addEventListener('click', function () {
+                this.closest('.bg-white').remove();
+                updateTotals();
+                updateCartCount();
+            });
+        });
+
+        // function updateCartCount() {
+        //     const itemCount = document.querySelectorAll('[data-price]').length;
+        //     document.getElementById('cart-count').textContent = itemCount;
+        //     document.getElementById('cart-total-items').textContent = itemCount;
+        // }
+
+        // function updateTotals() {
+        //     let subtotal = 0;
+        //     const shipping = 9.99;
+
+        //     document.querySelectorAll('[data-price]').forEach(item => {
+        //         const price = parseFloat(item.dataset.price);
+        //         const quantity = parseInt(item.querySelector('.quantity-input').value);
+        //         subtotal += price * quantity;
+        //     });
+
+        //     const total = subtotal + shipping;
+
+        //     document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
+        //     document.getElementById('shipping').textContent = `$${shipping.toFixed(2)}`;
+        //     document.getElementById('total').textContent = `$${total.toFixed(2)}`;
+        // }
+
+        // // Initialize totals on page load
+        // document.addEventListener('DOMContentLoaded', function () {
+        //     updateTotals();
+        //     updateCartCount();
+        // });
+    </script>
+</body>
+
+</html>

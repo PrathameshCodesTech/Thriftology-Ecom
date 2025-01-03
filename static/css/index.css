@@ -1,0 +1,21 @@
+.video-container {
+  position: relative;
+}
+
+.video-container video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none; /* Hide video by default */
+}
+
+.video-container:hover video {
+  display: block; /* Show video on hover */
+}
+
+.video-container img {
+  width: 100%;
+  height: auto;
+}
