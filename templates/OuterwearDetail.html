@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vintage Denim Jacket - Thriftology</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+</head>
+
+<body class="bg-white text-black font-sans">
+    <div id="app">
+        <!-- Navigation (unchanged) -->
+        <header class="fixed top-0 left-0 w-full bg-white z-50 shadow-sm">
+            <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+                <button id="mobile-menu-toggle" class="md:hidden">
+                    <i data-feather="menu"></i>
+                </button>
+
+                <div class="text-2xl font-bold">
+                    <span class="text-black">THRIFT</span>
+                    <span class="text-gray-500">OLOGY</span>
+                </div>
+
+                <div class="flex items-center space-x-4">
+                    <button class="hover:text-gray-600">
+                        <i data-feather="search"></i>
+                    </button>
+                    <button class="hover:text-gray-600">
+                        <i data-feather="heart"></i>
+                    </button>
+                    <a href="OuterwearCart.html" id="cart-button" class="relative hover:text-gray-600">
+                        <i data-feather="shopping-cart"></i>
+                        <span id="cart-count"
+                            class="hidden absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center"></span>
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <main class="pt-24 max-w-7xl mx-auto px-4">
+            <!-- Product Section -->
+            <div class="grid md:grid-cols-2 gap-8 items-start">
+                <!-- Product Image with controlled size -->
+                <div class="aspect-w-4 aspect-h-5 max-w-lg mx-auto">
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}"
+                        class="w-full h-full object-cover rounded-lg shadow-lg">
+                </div>
+
+                <!-- Product Details -->
+                <div class="space-y-6">
+                    <h1 class="text-3xl font-bold">{{ product.name }}</h1>
+                    <div class="flex items-center space-x-2">
+                        <span class="text-2xl font-bold text-red-500">{{ product.selling_price }}</span>
+                        <span class="text-lg text-gray-500 line-through">{{ product.discounted_price }}</span>
+                    </div>
+
+                    <p class="text-gray-600">Classic vintage denim jacket featuring distressed details and authentic
+                        wear patterns. Perfect for casual everyday wear with its timeless design and comfortable fit.
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint consequuntur ullam ut culpa
+                        eligendi nam vel aut dolorem excepturi provident consequatur neque nemo, beatae dolores, commodi
+                        in enim modi placeat quidem tempore fugit exercitationem explicabo. Consequuntur debitis autem
+                        consectetur molestiae, assumenda nulla dolorem numquam natus?</p>
+
+                    <!-- Size Selection -->
+                    <div>
+                        <h3 class="font-semibold mb-2">Select Size</h3>
+                        <div class="flex space-x-2">
+                            <button class="px-4 py-2 border rounded hover:bg-gray-100">S</button>
+                            <button class="px-4 py-2 border rounded bg-black text-white">M</button>
+                            <button class="px-4 py-2 border rounded hover:bg-gray-100">L</button>
+                            <button class="px-4 py-2 border rounded hover:bg-gray-100">XL</button>
+                        </div>
+                    </div>
+
+                    <!-- Quantity -->
+                    <!-- <div>
+                        <h3 class="font-semibold mb-2">Quantity</h3>
+                        <div class="flex items-center space-x-4">
+                            <button id="decrease-qty" class="px-3 py-1 border rounded">-</button>
+                            <span id="quantity" class="text-xl">1</span>
+                            <button id="increase-qty" class="px-3 py-1 border rounded">+</button>
+                        </div>
+                    </div> -->
+
+                    <!-- Add to Cart -->
+
+
+                    <!--                      
+                    <a href="{% url 'Add_Cart' %}" id="add-to-cart" class="w-full bg-black text-white py-3 rounded-lg hover:bg-gray-800 transition text-center block">
+                        Add to Cart
+                    </a>
+                     -->
+
+
+                    <form action="{% url 'Add_Cart' %}" id="add-to-cart-form" class="w-full">
+                        <!-- {% csrf_token %} -->
+                        <input type="hidden" name="prod_id" value="{{ product.id }}">
+                        <button type="submit" id="add-to-cart"
+                            class="w-full bg-black text-white py-3 rounded-lg hover:bg-gray-800 transition text-center block">
+                            Add to Cart
+                        </button>
+                    </form>
+
+
+
+
+
+
+
+
+                    <!-- Product Details -->
+                    <div class="border-t pt-6 space-y-4">
+                        <div>
+                            <h3 class="font-semibold">Material</h3>
+                            <p class="text-gray-600">100% Cotton Denim</p>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold">Condition</h3>
+                            <p class="text-gray-600">Excellent vintage condition</p>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold">Era</h3>
+                            <p class="text-gray-600">1990s</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- You May Also Like Section -->
+            <section class="mt-16">
+                <h2 class="text-2xl font-bold mb-6">You May Also Like</h2>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    <!-- Similar Item 1 -->
+                    <div class="group">
+                        <div class="aspect-w-1 aspect-h-1 mb-4">
+                            <img src="https://via.placeholder.com/300x300" alt="Vintage Leather Jacket"
+                                class="w-full h-full object-cover rounded-lg">
+                        </div>
+                        <h3 class="font-semibold">Vintage Leather Jacket</h3>
+                        <p class="text-red-500">$129.99</p>
+                    </div>
+
+                    <!-- Similar Item 2 -->
+                    <div class="group">
+                        <div class="aspect-w-1 aspect-h-1 mb-4">
+                            <img src="https://via.placeholder.com/300x300" alt="Retro Bomber Jacket"
+                                class="w-full h-full object-cover rounded-lg">
+                        </div>
+                        <h3 class="font-semibold">Retro Bomber Jacket</h3>
+                        <p class="text-red-500">$99.99</p>
+                    </div>
+
+                    <!-- Similar Item 3 -->
+                    <div class="group">
+                        <div class="aspect-w-1 aspect-h-1 mb-4">
+                            <img src="https://via.placeholder.com/300x300" alt="Vintage Trucker Jacket"
+                                class="w-full h-full object-cover rounded-lg">
+                        </div>
+                        <h3 class="font-semibold">Vintage Trucker Jacket</h3>
+                        <p class="text-red-500">$79.99</p>
+                    </div>
+
+                    <!-- Similar Item 4 -->
+                    <div class="group">
+                        <div class="aspect-w-1 aspect-h-1 mb-4">
+                            <img src="https://via.placeholder.com/300x300" alt="Classic Wool Jacket"
+                                class="w-full h-full object-cover rounded-lg">
+                        </div>
+                        <h3 class="font-semibold">Classic Wool Jacket</h3>
+                        <p class="text-red-500">$149.99</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer (unchanged) -->
+        <footer class="bg-gray-100 mt-12 py-8">
+            <!-- Footer content remains the same -->
+        </footer>
+    </div>
+
+    <script>
+        // Initialize Feather Icons
+        feather.replace();
+
+        // Cart functionality remains the same
+        const decreaseQty = document.getElementById('decrease-qty');
+        const increaseQty = document.getElementById('increase-qty');
+        const quantityEl = document.getElementById('quantity');
+        const addToCartBtn = document.getElementById('add-to-cart');
+        const cartCount = document.getElementById('cart-count');
+
+        let quantity = 1;
+
+        decreaseQty.addEventListener('click', () => {
+            if (quantity > 1) {
+                quantity--;
+                quantityEl.textContent = quantity;
+            }
+        });
+
+        increaseQty.addEventListener('click', () => {
+            quantity++;
+            quantityEl.textContent = quantity;
+        });
+
+        addToCartBtn.addEventListener('click', () => {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const existingItem = cart.find(item => item.name === 'Vintage Denim Jacket');
+
+            if (existingItem) {
+                existingItem.quantity += quantity;
+            } else {
+                cart.push({
+                    name: 'Vintage Denim Jacket',
+                    price: 89.99,
+                    quantity: quantity,
+                    size: 'M'
+                });
+            }
+
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+            alert('Item added to cart!');
+        });
+
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+
+            if (totalItems > 0) {
+                cartCount.textContent = totalItems;
+                cartCount.classList.remove('hidden');
+            } else {
+                cartCount.classList.add('hidden');
+            }
+        }
+
+        updateCartCount();
+    </script>
+</body>
+
+</html>

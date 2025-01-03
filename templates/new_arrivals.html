@@ -1,0 +1,17 @@
+<h2>New Arrivals</h2>
+<div class="grid md:grid-cols-3 gap-8">
+    {% for new_arrival in new_arrivals %}
+    <div class="bg-white p-6 rounded-lg shadow-sm">
+        <img src="{{ new_arrival.product.image.url }}" alt="{{ new_arrival.product.name }}"
+            class="w-full h-56 object-cover rounded">
+        <h3 class="text-xl font-medium mt-4">{{ new_arrival.product.name }}</h3>
+        <p class="text-gray-500 mt-1">{{ new_arrival.product.description }}</p>
+        <p class="text-red-500 font-bold text-xl mt-3">{{ new_arrival.product.discounted_price }}</p>
+        <a href="{% url 'place_bid' new_arrival.id %}"
+            class="bg-black text-white py-2 px-4 rounded hover:bg-gray-800 transition mt-4 block text-center">Place
+            Bid</a>
+    </div>
+    {% endfor %}
+
+
+    

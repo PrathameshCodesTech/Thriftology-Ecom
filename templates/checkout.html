@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thriftology - Delivery Details</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 0.75rem 0;
+            border: none;
+            border-bottom: 2px solid #e5e7eb;
+            background: transparent;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-bottom-color: #000;
+        }
+
+        .input-group input::placeholder {
+            color: #9ca3af;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input:focus::placeholder {
+            transform: translateY(-10px);
+            font-size: 0.8rem;
+            opacity: 0;
+        }
+
+        .animate-in {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        .custom-checkbox {
+            position: relative;
+            cursor: pointer;
+            padding-left: 30px;
+            user-select: none;
+        }
+
+        .custom-checkbox input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 20px;
+            width: 20px;
+            background-color: #fff;
+            border: 2px solid #e5e7eb;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .custom-checkbox:hover input ~ .checkmark {
+            border-color: #000;
+        }
+
+        .custom-checkbox input:checked ~ .checkmark {
+            background-color: #000;
+            border-color: #000;
+        }
+
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+            left: 6px;
+            top: 2px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+
+        .custom-checkbox input:checked ~ .checkmark:after {
+            display: block;
+        }
+
+        .continue-btn {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .continue-btn:after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: -100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .continue-btn:hover:after {
+            left: 100%;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-black font-sans">
+    <!-- Header -->
+    <header class="fixed top-0 left-0 w-full bg-white z-50 shadow-sm backdrop-blur-md bg-white/90">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold tracking-tight hover:opacity-80 transition-opacity">
+                <span class="text-black">THRIFT</span>
+                <span class="text-gray-500">OLOGY</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="pt-28 pb-24 max-w-2xl mx-auto px-6">
+        <div class="flex items-center mb-12 animate-in" style="animation-delay: 0.1s">
+            <button class="p-2 hover:bg-gray-100 rounded-full transition-colors" onclick="history.back()">
+                <i data-feather="arrow-left" class="w-6 h-6"></i>
+            </button>
+            <h1 class="text-2xl font-medium ml-4">Delivery Details</h1>
+        </div>
+
+        <form class="space-y-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2">
+                <!-- Left Column -->
+                <div class="space-y-2 animate-in" style="animation-delay: 0.2s">
+                    <div class="input-group">
+                        <input type="text" placeholder="NAME" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" placeholder="ADDRESS" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" placeholder="LANDMARK">
+                    </div>
+                    <div class="input-group">
+                        <input type="text" placeholder="CITY" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" placeholder="REGION">
+                    </div>
+                </div>
+
+                <!-- Right Column -->
+                <div class="space-y-2 animate-in" style="animation-delay: 0.3s">
+                    <div class="input-group">
+                        <input type="text" placeholder="ADDRESS 2">
+                    </div>
+                    <div class="input-group">
+                        <input type="text" placeholder="LOCALITY">
+                    </div>
+                    <div class="input-group">
+                        <input type="text" placeholder="STATE" required>
+                    </div>
+                    <div class="flex gap-4">
+                        <div class="w-1/4">
+                            <div class="input-group">
+                                <input type="text" value="+91" class="text-gray-500" readonly>
+                            </div>
+                        </div>
+                        <div class="flex-1">
+                            <div class="input-group">
+                                <input type="tel" placeholder="TELEPHONE" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex items-start mt-12 animate-in" style="animation-delay: 0.4s">
+                <label class="custom-checkbox text-sm text-gray-600">
+                    I wish to receive Thriftology news on my e-mail
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+
+            <div class="fixed bottom-0 left-0 w-full bg-white border-t shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] animate-in" style="animation-delay: 0.5s">
+                <div class="max-w-2xl mx-auto flex justify-between items-center px-6 py-4">
+                    <div class="text-sm">
+                        TOTAL <span class="font-bold ml-2 text-lg">₹ 2,599.00</span>
+                    </div>
+                    <button class="continue-btn bg-black text-white px-10 py-3 rounded-md hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-all">
+                        CONTINUE
+                    </button>
+                </div>
+            </div>
+        </form>
+    </main>
+
+    <script>
+        feather.replace();
+    </script>
+</body>
+</html>

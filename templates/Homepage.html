@@ -1,0 +1,309 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thriftology - Sustainable Fashion</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="">
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+
+    <style>
+        .video-container {
+            position: relative;
+        }
+
+        .video-container video {
+            display: none;
+            /* Hide video by default */
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+        }
+
+        .video-container img {
+            display: block;
+            width: 100%;
+            height: auto;
+            transition: opacity 0.3s ease;
+        }
+
+        /* If there's a video, the image fades out on hover */
+        .video-container:hover img {
+            opacity: 0;
+        }
+
+        .video-container:hover video {
+            display: block;
+            /* Show video on hover */
+            z-index: 2;
+        }
+
+        /* When there is no video, ensure the image doesn't disappear */
+        .video-container:not(.has-video) img {
+            opacity: 1 !important;
+        }
+    </style>
+
+</head>
+
+<body class="bg-white text-black font-sans">
+    <div id="app">
+        <!-- Navigation -->
+
+        <header class="fixed top-0 left-0 w-full bg-white z-50 shadow-sm">
+            <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+                <button id="mobile-menu-toggle" class="md:hidden">
+                    <i data-feather="menu"></i>
+                </button>
+
+                <div class="text-2xl font-bold">
+                    <span class="text-black">THRIFT</span>
+                    <span class="text-gray-500">OLOGY</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button class="hover:text-gray-600">
+                        <a href="{% url 'login' %}"><i data-feather="log-in"></i></a>
+                        <!-- <i data-feather="log-in"></i> -->
+                    </button>
+                    <button class="hover:text-gray-600">
+                        <i data-feather="heart"></i>
+                    </button>
+                    <button id="cart-button" class="relative hover:text-gray-600">
+                        <i data-feather="shopping-cart"></i>
+                        <span id="cart-count"
+                            class="hidden absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center"></span>
+                    </button>
+
+                    <!-- <button class="hover:text-gray-600">
+                        <a href="{% url 'logout' %}"><i data-feather="user-x"></i></a>
+                    </button> -->
+
+                    <!-- {% if request.user.is_authenticated %} 
+                    <button class="hover:text-gray-600">
+                        <i data-feather="user-check"></i>
+                    </button>
+
+
+                    <form method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button class="hover:text-gray-600">
+                            <a href="{% url 'logout' %}"><i data-feather="user-x"></i></a>
+                        </button>
+                    </form>
+                    
+                    {% endif %} -->
+
+
+                    {% if request.user.is_authenticated %}
+                    <button class="hover:text-gray-600">
+                        <i data-feather="user-check"></i>
+                    </button>
+
+                    <form id="logout-form" method="post" action="{% url 'logout' %}" style="display: none;">
+                        {% csrf_token %}
+                    </form>
+
+                    <button onclick="confirmLogout()" class="hover:text-gray-600">
+                        <i data-feather="user-x"></i>
+                    </button>
+
+                    <script>
+                        function confirmLogout() {
+                            if (confirm("Are you sure you want to log out?")) {
+                                document.getElementById('logout-form').submit();
+                            }
+                        }
+                    </script>
+                    {% endif %}
+                    
+                </div>
+
+            </div>
+
+            <nav id="desktop-nav" class="hidden md:flex justify-center space-x-8 py-4 border-t border-b">
+                <nav class="flex justify-center space-x-8 py-4 border-t border-b">
+                    <a href="#" class="uppercase text-sm tracking-wider text-gray-600 hover:text-black">New Arrivals</a>
+                    <a href="{% url 'Outer-wear' %}"
+                        class="uppercase text-sm tracking-wider text-gray-600 hover:text-black">Outerwear</a>
+                    <a href="#" class="uppercase text-sm tracking-wider text-gray-600 hover:text-black">Top</a>
+                    <a href="#" class="uppercase text-sm tracking-wider text-gray-600 hover:text-black">Bottom</a>
+                    <a href="#" class="uppercase text-sm tracking-wider text-gray-600 hover:text-black">Chic Kicks</a>
+                    <a href="#" class="uppercase text-sm tracking-wider text-gray-600 hover:text-black">Accessories</a>
+                    <a href="#" class="uppercase text-sm tracking-wider text-gray-600 hover:text-black">Sell</a>
+                </nav>
+
+                <!-- Mobile Menu -->
+                <div id="mobile-menu" class="md:hidden absolute top-full left-0 w-full bg-white shadow-lg hidden">
+                    <!-- Categories will be dynamically added here -->
+                </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="pt-32 max-w-7xl mx-auto px-4">
+            <!-- Hero Section -->
+            <section class="mb-12 relative">
+                <div id="slider-container" class="relative overflow-hidden">
+                    <div class="slider-slide">
+                        <video autoplay loop muted class="w-full h-[500px] object-cover">
+                            <source src="mixkit-catwalk-of-a-man-modeling-old-fashion-clothes-41472-full-hd.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <div class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
+                            <div class="text-white text-center">
+                                <h1 class="text-4xl font-bold mb-4">Sustainable Style</h1>
+                                <p class="text-xl mb-6">Unique Finds, Unbeatable Prices</p>
+                                <button class="bg-white text-black px-8 py-3 hover:bg-gray-100">Shop Now</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slider-slide hidden">
+                        <video autoplay loop muted class="w-full h-[500px] object-cover">
+                            <source src="mixkit-creative-studio-for-a-fashion-shoot-with-a-photographer-and-50639-full-hd.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <div class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
+                            <div class="text-white text-center">
+                                <h1 class="text-4xl font-bold mb-4">Vintage Collection</h1>
+                                <p class="text-xl mb-6">Timeless Pieces, Modern Looks</p>
+                                <button class="bg-white text-black px-8 py-3 hover:bg-gray-100">Explore Now</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="slider-slide hidden">
+                        <video autoplay loop muted class="w-full h-[500px] object-cover">
+                            <source src="25245-348376973_small.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <div class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
+                            <div class="text-white text-center">
+                                <h1 class="text-4xl font-bold mb-4">Vintage Collection</h1>
+                                <p class="text-xl mb-6">Timeless Pieces, Modern Looks</p>
+                                <button class="bg-white text-black px-8 py-3 hover:bg-gray-100">Explore Now</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+
+
+
+
+
+
+
+
+
+
+        <!-- Product Grid -->
+        <section id="product-grid" class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {% for product in products %}
+            <div class="border p-4">
+                <div class="video-container">
+                    <a href="{% url 'Product-Detail' product.id %}">
+                        <img src="{{ product.image.url }}" alt="{{ product.description }}">
+                    </a>
+                    {% if product.video %}
+                    <video class="hidden" src="{{ product.video.url }}" loop muted></video>
+                    {% endif %}
+                </div>
+                <h2 class="text-lg font-bold my-2">{{ product.name }}</h2>
+                <p class="text-sm text-gray-600">{{ product.category }}</p>
+                <p class="text-red-500 font-bold">{{ product.selling_price }}</p>
+                <p class="text-gray-500 line-through">{{ product.discounted_price }} {{product.id}}</p>
+                <a href="{% url 'Product-Detail' product.id %}">
+                    <button class="bg-black text-white px-4 py-2 rounded hover:bg-gray-800">View More</button>
+                </a>
+            </div>
+            {% endfor %}
+        </section>
+
+
+
+
+
+
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-black text-white py-12 mt-12">
+            <div class="max-w-7xl mx-auto px-4 grid md:grid-cols-4 gap-8">
+                <div>
+                    <h4 class="font-bold mb-4">About Thriftology</h4>
+                    <p class="text-sm text-gray-300">
+                        Sustainable fashion at your fingertips. Discover unique, pre-loved
+                        pieces that tell a story and reduce fashion waste.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-sm hover:text-gray-300">Shop</a></li>
+                        <li><a href="#" class="text-sm hover:text-gray-300">About Us</a></li>
+                        <li><a href="#" class="text-sm hover:text-gray-300">Sustainability</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Customer Service</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-sm hover:text-gray-300">Contact</a></li>
+                        <li><a href="#" class="text-sm hover:text-gray-300">Shipping</a></li>
+                        <li><a href="#" class="text-sm hover:text-gray-300">Returns</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Newsletter</h4>
+                    <p class="text-sm mb-4">
+                        Subscribe for exclusive thrift finds and sustainable fashion tips.
+                    </p>
+                    <div class="flex">
+                        <input type="email" placeholder="Your email" class="w-full px-3 py-2 text-black" />
+                        <button class="bg-white text-black px-4 hover:bg-gray-200">
+                            Send
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-8 text-sm text-gray-500">
+                © 2024 Thriftology. All Rights Reserved.
+            </div>
+        </footer>
+    </div>
+
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const videoContainers = document.querySelectorAll(".video-container");
+
+            videoContainers.forEach((container) => {
+                const video = container.querySelector("video");
+
+                if (video) {
+                    // Play video on hover
+                    container.addEventListener("mouseenter", () => video.play());
+                    container.addEventListener("mouseleave", () => video.pause());
+                } else {
+                    // Remove hover effects for containers without video
+                    container.classList.remove("has-video");
+                }
+            });
+        });
+
+
+        feather.replace();
+
+
+    </script>
+</body>
+
+</html>
